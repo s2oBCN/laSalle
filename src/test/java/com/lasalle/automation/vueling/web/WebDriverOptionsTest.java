@@ -1,9 +1,11 @@
 package com.lasalle.automation.vueling.web;
 
-import com.sun.java.swing.plaf.windows.resources.windows;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,6 +20,7 @@ import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -44,7 +47,7 @@ public class WebDriverOptionsTest {
     {
         LOGGER.debug("start testWebDrive");
 
-        System.setProperty ("webdriver.chrome.driver","/Users/sacrists/Downloads/chromedriver" );
+        System.setProperty ("webdriver.chrome.driver","/home/s2o/tmp/chromedriver" );
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS) ;
         driver.manage().window().maximize() ;
@@ -79,8 +82,9 @@ public class WebDriverOptionsTest {
         driver.get("https://the-internet.herokuapp.com/windows");
         driver.findElement(By.linkText("Click Here")).click();
         Set<String> windowHandles = driver.getWindowHandles();
-        driver.switchTo().window("CDwindow-DB5DDE0D8F57F3BED0316A1F23453306").getTitle();
 
+        Optional<String> otherW = windowHandles.stream().filter(h -> !h.equals(driver.getWindowHandle())).findFirst();
+        driver.switchTo().window(otherW.get()).getTitle();
         driver.get("https://the-internet.herokuapp.com/dynamic_loading/1" );
         WebElement myDynamicElement = (new WebDriverWait(driver, 10))
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("finish")));
