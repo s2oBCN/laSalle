@@ -1,5 +1,6 @@
 package com.lasalle.automation.vueling.web;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
@@ -9,6 +10,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +22,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.StandardCopyOption;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 /**
  * - Window: get, getTitle, getCurrentUrl, getPageSource, close, quit
@@ -92,13 +99,32 @@ public class WebDriverOptionsTest {
 
         driver.get("https://the-internet.herokuapp.com/dynamic_loading/1" );
         driver.findElement(By.tagName("button")).click();
+
+        // Esperas
+        // Explicitas WebDriverWait
         WebDriverWait wait = new WebDriverWait(driver, 10);
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("finish")));
+        Assert.assertTrue(element.isDisplayed());
 
-        WebDriver driver = new FirefoxDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get("http://somedomain/url_that_delays_loading");
-        WebElement myDynamicElement2 = driver.findElement(By.id("myDynamicElement"));
+        // Explicitas FluentWait
+        Wait<WebDriver> fwait = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.of(30, ChronoUnit.SECONDS))
+                .pollingEvery(Duration.of(2, ChronoUnit.SECONDS))
+                .ignoring(NoSuchElementException.class);
+
+        driver.get("https://the-internet.herokuapp.com/dynamic_loading/1");
+        driver.findElement(By.tagName("button")).click();
+        WebElement dynamic = fwait.until(new Function<WebDriver, WebElement>() {
+            @Override
+            public WebElement apply(WebDriver webDriver) {
+                return webDriver.findElement(By.id("finish"));
+            }
+        });
+
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.get("https://the-internet.herokuapp.com/dynamic_loading/1");
+        driver.findElement(By.tagName("button")).click();
+        WebElement myDynamicElement2 = driver.findElement(By.id("finish"));
 
         try {
             File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
