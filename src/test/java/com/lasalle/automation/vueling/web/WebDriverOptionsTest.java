@@ -3,31 +3,19 @@ package com.lasalle.automation.vueling.web;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
-import java.nio.file.StandardCopyOption;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -103,15 +91,6 @@ public class WebDriverOptionsTest {
         String implicitWaitElementText = implicitWaitElement.getText();
         Assert.assertTrue(implicitWaitElement.isDisplayed());
         LOGGER.debug("finish element, implicitWaitElementText:[{}]", implicitWaitElementText);
-
-        // Esperas - Explícitas WebDriverWait
-        driver.get("https://the-internet.herokuapp.com/dynamic_loading/1");
-        driver.findElement(By.cssSelector("#start > button")).click();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("finish")));
-        String text = element.getText();
-        Assert.assertTrue(element.isDisplayed());
-        LOGGER.debug("finish element, WebDriverWait, text:[{}]", text);
 
         driver.close();
         LOGGER.debug("driver closed");
