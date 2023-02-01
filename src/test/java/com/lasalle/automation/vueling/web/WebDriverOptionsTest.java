@@ -2,6 +2,7 @@ package com.lasalle.automation.vueling.web;
 
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +31,11 @@ public class WebDriverOptionsTest {
     {
         LOGGER.debug("start testWebDrive");
 
-        System.setProperty ("webdriver.chrome.driver","full path to WebDriverExe" );
+        System.setProperty ("webdriver.chrome.driver","C:\\Users\\sergi\\Downloads\\cc\\chromedriver.exe" );
+
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        LOGGER.debug("driver starter");
 
         driver.close();
         LOGGER.debug("driver closed");
