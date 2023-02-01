@@ -54,13 +54,13 @@ public class WebDriverOptionsTest {
     {
         LOGGER.debug("start testWebDrive");
 
-        System.setProperty ("webdriver.chrome.driver","/home/s2o/tmp/chromedriver" );
+        System.setProperty ("webdriver.chrome.driver","/home/s2o/tmp/chromedriver_linux64/chromedriver" );
         driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS) ;
-        driver.manage().window().maximize() ;
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().window().maximize();
         LOGGER.debug("driver started");
 
-        driver.get("https://the-internet.herokuapp.com" );
+        driver.get("https://the-internet.herokuapp.com");
         driver.getTitle();
         driver.getCurrentUrl();
         driver.getPageSource();
@@ -71,69 +71,47 @@ public class WebDriverOptionsTest {
         driver.navigate().refresh();
 
         driver.navigate().to("https://the-internet.herokuapp.com");
-        driver.findElements(By.cssSelector("li"));
         driver.findElement(By.linkText("JavaScript Alerts")).click();
         List<WebElement> buttons = driver.findElements(By.cssSelector("button"));
         buttons.get(0).click();
         driver.switchTo().alert().accept();
-
         buttons.get(1).click();
         driver.switchTo().alert().dismiss();
 
-        driver.navigate().to("https://the-internet.herokuapp.com/nested_frames");
-
-        driver.findElements(By.cssSelector("frame[src='/frame_bottom'"));
-        driver.switchTo().frame(0);
-
-
-        driver.get("https://the-internet.herokuapp.com/windows");
-        driver.findElement(By.linkText("Click Here")).click();
-        Set<String> windowHandles = driver.getWindowHandles();
-
-        Optional<String> otherW = windowHandles.stream().filter(h -> !h.equals(driver.getWindowHandle())).findFirst();
-        driver.switchTo().window(otherW.get()).getTitle();
-        driver.get("https://the-internet.herokuapp.com/dynamic_loading/1" );
-        WebElement myDynamicElement = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.id("finish")));
-        myDynamicElement.getText();
-
-        driver.get("https://the-internet.herokuapp.com/dynamic_loading/1" );
-        driver.findElement(By.tagName("button")).click();
-
-        // Esperas
-        // Explicitas WebDriverWait
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("finish")));
-        Assert.assertTrue(element.isDisplayed());
-
-        // Explicitas FluentWait
-        Wait<WebDriver> fwait = new FluentWait<WebDriver>(driver)
+        // Esperas - Explícitas FluentWait
+        driver.get("https://the-internet.herokuapp.com/dynamic_controls");
+        driver.findElement(By.cssSelector("#checkbox-example > button")).click();
+        Wait<WebDriver> fluentWait = new FluentWait<WebDriver>(driver)
                 .withTimeout(Duration.of(30, ChronoUnit.SECONDS))
                 .pollingEvery(Duration.of(2, ChronoUnit.SECONDS))
                 .ignoring(NoSuchElementException.class);
-
-        driver.get("https://the-internet.herokuapp.com/dynamic_loading/1");
-        driver.findElement(By.tagName("button")).click();
-        WebElement dynamic = fwait.until(new Function<WebDriver, WebElement>() {
+        WebElement fluentElement = fluentWait.until(new Function<WebDriver, WebElement>() {
             @Override
             public WebElement apply(WebDriver webDriver) {
-                return webDriver.findElement(By.id("finish"));
+                return webDriver.findElement(By.id("message"));
             }
         });
+        String fluentElementText = fluentElement.getText();
+        Assert.assertTrue(fluentElement.isDisplayed());
+        LOGGER.debug("finish element, fluentElementText:[{}]", fluentElementText);
 
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        // Esperas - Implícitas implicitlyWait
+        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        driver.get("https://the-internet.herokuapp.com/dynamic_controls");
+        driver.findElement(By.cssSelector("#checkbox-example > button")).click();
+        WebElement implicitWaitElement = driver.findElement(By.id("message"));
+        String implicitWaitElementText = implicitWaitElement.getText();
+        Assert.assertTrue(implicitWaitElement.isDisplayed());
+        LOGGER.debug("finish element, implicitWaitElementText:[{}]", implicitWaitElementText);
+
+        // Esperas - Explícitas WebDriverWait
         driver.get("https://the-internet.herokuapp.com/dynamic_loading/1");
-        driver.findElement(By.tagName("button")).click();
-        WebElement myDynamicElement2 = driver.findElement(By.id("finish"));
-
-        try {
-            File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-            InputStream initialStream = new FileInputStream(scrFile);
-            File targetFile = new File("targetFile.png");
-            java.nio.file.Files.copy(initialStream, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            LOGGER.debug("TakesScreenshot error", e);
-        }
+        driver.findElement(By.cssSelector("#start > button")).click();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("finish")));
+        String text = element.getText();
+        Assert.assertTrue(element.isDisplayed());
+        LOGGER.debug("finish element, WebDriverWait, text:[{}]", text);
 
         driver.close();
         LOGGER.debug("driver closed");
