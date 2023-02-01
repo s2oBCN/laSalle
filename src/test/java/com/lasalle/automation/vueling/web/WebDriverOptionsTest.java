@@ -1,5 +1,6 @@
 package com.lasalle.automation.vueling.web;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -34,9 +35,9 @@ public class WebDriverOptionsTest {
 
         System.setProperty ("webdriver.chrome.driver","/home/s2o/tmp/chromedriver_linux64/chromedriver" );
         driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         LOGGER.debug("driver started");
+        Assertions.assertThat(driver.getTitle()).isNotNull();
 
         driver.close();
         LOGGER.debug("driver closed");
