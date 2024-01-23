@@ -36,6 +36,7 @@ public class WebDriverOptionsTest {
         File currentDirFile = new File(".webDriver/chromedriver.exe");
         System.setProperty ("webdriver.chrome.driver",currentDirFile.getAbsolutePath() );
         driver = new ChromeDriver();
+        LOGGER.debug("driver started");
     }
 
     @AfterEach
@@ -48,8 +49,16 @@ public class WebDriverOptionsTest {
     public void testWebDrives() throws InterruptedException
     {
         driver.manage().window().maximize();
-        LOGGER.debug("driver started");
+        LOGGER.debug("driver maximized");
         Assertions.assertThat(driver.getTitle()).isNotNull();
     }
 
+    @Test
+    public void testWebNavigation() throws InterruptedException
+    {
+        // TODO-1 navigate to https://the-internet.herokuapp.com
+        // TODO-2 get title, url, pagesource
+        // TODO-3 navigate to https://the-internet.herokuapp.com/abtest
+        // TODO-4 navigate back, forward, refresh
+    }
 }
