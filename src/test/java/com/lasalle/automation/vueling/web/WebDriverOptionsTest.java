@@ -4,13 +4,16 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.lang.invoke.MethodHandles;
+import java.util.List;
 
 /**
  * - Window: get, getTitle, getCurrentUrl, getPageSource, close, quit
@@ -47,9 +50,9 @@ public class WebDriverOptionsTest {
     }
 
     @Test
-    public void testWebDrives() throws InterruptedException
+    public void testWebDriveNavigation() throws InterruptedException
     {
-        LOGGER.debug("start testWebDrive");
+        LOGGER.debug("start testWebDriveNavigation");
 
         // Navigation
         driver.get("https://the-internet.herokuapp.com");
@@ -63,4 +66,18 @@ public class WebDriverOptionsTest {
         Assertions.assertThat(driver.getCurrentUrl()).isEqualTo("https://the-internet.herokuapp.com/abtest");
     }
 
+    @Test
+    public void testSelectors(){
+        driver.navigate().to("https://the-internet.herokuapp.com");
+        // TODO find element by:
+        //              id: page-footer
+        //              linkText: "JavaScript Alerts" ==> AND  click it
+        //              cssSelector: "#content > div > ul > li:nth-child(1) > button" ==> AND  click it
+        // TODO close alert with switchTo alert
+        // TODO find element by:
+        //              xpath: "//*[@id=\"content\"]/div/ul/li[2]/button" AND  click it
+        // TODO close alert with switchTo alert
+        // TODO find elementS by:
+        //              cssSelector: "button"
+    }
 }
