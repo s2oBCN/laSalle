@@ -33,7 +33,6 @@ public class WebDriverOptionsTest {
     @BeforeEach
     public void setUp() {
         LOGGER.debug("start testWebDrive");
-        // TODO download from https://www.selenium.dev/ecosystem/
         File currentDirFile = new File(".webDriver/chromedriver.exe");
         System.setProperty ("webdriver.chrome.driver",currentDirFile.getAbsolutePath() );
         driver = new ChromeDriver();
