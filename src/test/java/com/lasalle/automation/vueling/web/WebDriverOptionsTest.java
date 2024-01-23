@@ -1,7 +1,7 @@
 package com.lasalle.automation.vueling.web;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import java.lang.invoke.MethodHandles;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import java.util.concurrent.TimeUnit;
 
 /**
  * - Window: get, getTitle, getCurrentUrl, getPageSource, close, quit
@@ -37,7 +36,8 @@ public class WebDriverOptionsTest {
     public void testWebDrives() {
         LOGGER.debug("start testWebDrive");
 
-        System.setProperty ("webdriver.chrome.driver","C:\\Users\\sergi\\repos\\trainings\\laSalle\\.idea\\chromedriver_win32\\chromedriver.exe" );
+        // TODO download from https://www.selenium.dev/ecosystem/
+        System.setProperty ("webdriver.chrome.driver","C:\\...\\chromedriver.exe" );
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         LOGGER.debug("driver started");

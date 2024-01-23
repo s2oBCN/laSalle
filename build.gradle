@@ -29,6 +29,10 @@ dependencies {
     // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
     testImplementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.16.1'
 
-    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.25.1'
+}
+
+test {
+    useJUnitPlatform()
 }
