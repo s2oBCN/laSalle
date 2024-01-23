@@ -1,12 +1,15 @@
 package com.lasalle.automation.vueling.web;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.lang.invoke.MethodHandles;
 
 /**
@@ -27,16 +30,26 @@ public class WebDriverOptionsTest {
 
     private static WebDriver driver;
 
+    @BeforeEach
+    public void setUp() {
+        LOGGER.debug("start testWebDrive");
+        File currentDirFile = new File(".webDriver/chromedriver.exe");
+        System.setProperty ("webdriver.chrome.driver",currentDirFile.getAbsolutePath() );
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        LOGGER.debug("driver started");
+    }
+
+    @AfterEach
+    public void tearDown() {
+        driver.quit();
+        LOGGER.debug("driver closed");
+    }
+
     @Test
     public void testWebDrives() throws InterruptedException
     {
         LOGGER.debug("start testWebDrive");
-
-        // TODO download from https://www.selenium.dev/ecosystem/
-        System.setProperty ("webdriver.chrome.driver","C:\\...\\chromedriver.exe" );
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        LOGGER.debug("driver started");
 
         // Navigation
         driver.get("https://the-internet.herokuapp.com");
@@ -48,10 +61,6 @@ public class WebDriverOptionsTest {
         driver.navigate().forward();
         driver.navigate().refresh();
         Assertions.assertThat(driver.getCurrentUrl()).isEqualTo("https://the-internet.herokuapp.com/abtest");
-        LOGGER.debug("navigation ok");
-
-        driver.close();
-        LOGGER.debug("driver closed");
     }
 
 }
