@@ -1,7 +1,7 @@
 package com.lasalle.automation.vueling.web;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
@@ -32,7 +32,8 @@ public class WebDriverOptionsTest {
     {
         LOGGER.debug("start testWebDrive");
 
-        System.setProperty ("webdriver.chrome.driver","/home/s2o/tmp/chromedriver_linux64/chromedriver" );
+        // TODO download from https://www.selenium.dev/ecosystem/
+        System.setProperty ("webdriver.chrome.driver","C:\\...\\chromedriver.exe" );
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         LOGGER.debug("driver started");
