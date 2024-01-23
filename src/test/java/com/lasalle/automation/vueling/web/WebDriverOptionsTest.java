@@ -1,16 +1,24 @@
 package com.lasalle.automation.vueling.web;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.lang.invoke.MethodHandles;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * - Window: get, getTitle, getCurrentUrl, getPageSource, close, quit
@@ -30,30 +38,27 @@ public class WebDriverOptionsTest {
 
     private static WebDriver driver;
 
-    @Test
-    public void testWebDrives() throws InterruptedException
-    {
+    @BeforeEach
+    public void setUp() {
         LOGGER.debug("start testWebDrive");
-
         // TODO download from https://www.selenium.dev/ecosystem/
-        System.setProperty ("webdriver.chrome.driver","C:\\...\\chromedriver.exe" );
+        File currentDirFile = new File(".webDriver/chromedriver.exe");
+        System.setProperty ("webdriver.chrome.driver",currentDirFile.getAbsolutePath() );
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         LOGGER.debug("driver started");
+    }
 
-        // Navigation
-        driver.get("https://the-internet.herokuapp.com");
-        driver.getTitle();
-        driver.getCurrentUrl();
-        driver.getPageSource();
-        driver.navigate().to("https://the-internet.herokuapp.com/abtest");
-        driver.navigate().back();
-        driver.navigate().forward();
-        driver.navigate().refresh();
-        Assertions.assertThat(driver.getCurrentUrl()).isEqualTo("https://the-internet.herokuapp.com/abtest");
-        LOGGER.debug("navigation ok");
+    @AfterEach
+    public void tearDown() {
+        driver.quit();
+        LOGGER.debug("driver closed");
+    }
 
-        // Selectors
+    @Test
+    public void testWebDriveSelectors() throws InterruptedException
+    {
+        LOGGER.debug("Start testWebDriveSelectors");
         driver.navigate().to("https://the-internet.herokuapp.com");
         driver.findElement(By.id("page-footer"));
         driver.findElement(By.linkText("JavaScript Alerts")).click();
@@ -64,9 +69,6 @@ public class WebDriverOptionsTest {
         List<WebElement> buttons = driver.findElements(By.cssSelector("button"));
         Assertions.assertThat(buttons.size()).isEqualTo(3);
         LOGGER.debug("selectors ok");
-
-        driver.close();
-        LOGGER.debug("driver closed");
     }
 
 }
