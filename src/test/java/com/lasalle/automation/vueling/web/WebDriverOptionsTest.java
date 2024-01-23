@@ -1,7 +1,8 @@
 package com.lasalle.automation.vueling.web;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -42,7 +43,8 @@ public class WebDriverOptionsTest {
     {
         LOGGER.debug("start testWebDrive");
 
-        System.setProperty ("webdriver.chrome.driver","/home/s2o/tmp/chromedriver_linux64/chromedriver" );
+        // TODO download from https://www.selenium.dev/ecosystem/
+        System.setProperty ("webdriver.chrome.driver","C:\\...\\chromedriver.exe" );
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().window().maximize();
@@ -80,7 +82,7 @@ public class WebDriverOptionsTest {
             }
         });
         String fluentElementText = fluentElement.getText();
-        Assert.assertTrue(fluentElement.isDisplayed());
+        Assertions.assertTrue(fluentElement.isDisplayed());
         LOGGER.debug("finish element, fluentElementText:[{}]", fluentElementText);
 
         // Esperas - Implícitas implicitlyWait
@@ -89,7 +91,7 @@ public class WebDriverOptionsTest {
         driver.findElement(By.cssSelector("#checkbox-example > button")).click();
         WebElement implicitWaitElement = driver.findElement(By.id("message"));
         String implicitWaitElementText = implicitWaitElement.getText();
-        Assert.assertTrue(implicitWaitElement.isDisplayed());
+        Assertions.assertTrue(implicitWaitElement.isDisplayed());
         LOGGER.debug("finish element, implicitWaitElementText:[{}]", implicitWaitElementText);
 
         driver.close();
