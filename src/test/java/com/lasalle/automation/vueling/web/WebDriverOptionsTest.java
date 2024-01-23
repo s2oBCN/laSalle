@@ -37,14 +37,14 @@ public class WebDriverOptionsTest {
     public void testWebDrives() {
         LOGGER.debug("start testWebDrive");
 
-        System.setProperty ("webdriver.chrome.driver","C:\\Users\\sergi\\Downloads\\cc\\chromedriver.exe" );
+        System.setProperty ("webdriver.chrome.driver","C:\\Users\\sergi\\repos\\trainings\\laSalle\\.idea\\chromedriver_win32\\chromedriver.exe" );
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         LOGGER.debug("driver started");
 
         // Esperas - Implícitas implicitlyWait => no such element: Unable to locate element
         // Se aplica a TODOS los elementos
-        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         driver.get("https://the-internet.herokuapp.com/dynamic_controls");
         driver.findElement(By.cssSelector("#checkbox-example > button")).click();
         WebElement implicitWaitElement = driver.findElement(By.id("message"));
@@ -56,7 +56,7 @@ public class WebDriverOptionsTest {
         // pero no es visible o no cumple alguna condición
         driver.get("https://the-internet.herokuapp.com/dynamic_loading/1");
         driver.findElement(By.cssSelector("#start > button")).click();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("finish")));
         String text = element.getText();
         Assertions.assertThat(element.isDisplayed()).isTrue();

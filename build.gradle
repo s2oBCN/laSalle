@@ -14,7 +14,7 @@ version '1.0-SNAPSHOT'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(16)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -24,12 +24,11 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.4.14'
 
     // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
-    testImplementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+    testImplementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.16.1'
 
-    testImplementation group: 'junit', name: 'junit', version: '4.12'
-    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
-
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.25.1'
 }
