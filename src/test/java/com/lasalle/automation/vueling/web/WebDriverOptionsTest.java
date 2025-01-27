@@ -8,8 +8,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
 import java.lang.invoke.MethodHandles;
 
 /**
@@ -47,7 +45,7 @@ public class WebDriverOptionsTest {
     }
 
     @Test
-    public void testWebDrives() throws InterruptedException
+    public void testWebDrives()
     {
         driver.manage().window().maximize();
         LOGGER.debug("driver starter");
