@@ -21,7 +21,7 @@ import java.lang.invoke.MethodHandles;
  * Locators según preferencia:
  * By Id
  * By name
- * By css: https://saucelabs.com/resources/articles/selenium-tips-css-selectors
+ * By css: <a href="https://saucelabs.com/resources/articles/selenium-tips-css-selectors">...</a>
  * By xpath
  * Wait: implicitlyWait vs explicitWait (expected conditions)
  */
@@ -34,6 +34,7 @@ public class WebDriverOptionsTest {
     public void setUp() {
         LOGGER.debug("start testWebDrive");
         // TODO download from https://www.selenium.dev/ecosystem/
+        // https://googlechromelabs.github.io/chrome-for-testing/
         // TODO update System.setProperty
         System.setProperty ("webdriver.chrome.driver", "absolute path to webdriver" );
         driver = new ChromeDriver();
