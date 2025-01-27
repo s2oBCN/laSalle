@@ -41,7 +41,8 @@ public class WebDriverOptionsTest {
     public void setUp() {
         LOGGER.debug("start testWebDrive");
         // TODO download from https://www.selenium.dev/ecosystem/
-        File currentDirFile = new File(".webDriver/chromedriver.exe");
+        // https://googlechromelabs.github.io/chrome-for-testing/
+        File currentDirFile = new File(".webDriver/chromedriver");
         System.setProperty ("webdriver.chrome.driver",currentDirFile.getAbsolutePath() );
         driver = new ChromeDriver();
         driver.manage().window().maximize();
