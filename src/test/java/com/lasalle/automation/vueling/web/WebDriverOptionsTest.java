@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.lang.invoke.MethodHandles;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 /**
  * - Window: get, getTitle, getCurrentUrl, getPageSource, close, quit
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  * Locators según preferencia:
  * By Id
  * By name
- * By css: https://saucelabs.com/resources/articles/selenium-tips-css-selectors
+ * By css: <a href="https://saucelabs.com/resources/articles/selenium-tips-css-selectors">...</a>
  * By xpath
  * Wait: implicitlyWait vs explicitWait (expected conditions)
  */
@@ -37,7 +37,7 @@ public class WebDriverOptionsTest {
     public void setUp() {
         LOGGER.debug("start testWebDrive");
         // TODO download from https://www.selenium.dev/ecosystem/
-        File currentDirFile = new File(".webDriver/chromedriver.exe");
+        File currentDirFile = new File(".webDriver/chromedriver");
         System.setProperty ("webdriver.chrome.driver",currentDirFile.getAbsolutePath() );
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -54,7 +54,7 @@ public class WebDriverOptionsTest {
     public void testWebDriveImplicitlyWait() throws InterruptedException
     {
         LOGGER.debug("start testWebDriveImplicitlyWait");
-        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         driver.get("https://the-internet.herokuapp.com/dynamic_controls");
         driver.findElement(By.cssSelector("#checkbox-example > button")).click();
         WebElement implicitWaitElement = driver.findElement(By.id("message"));
