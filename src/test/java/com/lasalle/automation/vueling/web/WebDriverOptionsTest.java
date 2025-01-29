@@ -17,7 +17,6 @@ import java.io.File;
 import java.lang.invoke.MethodHandles;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 /**
@@ -29,7 +28,7 @@ import java.util.function.Function;
  * Locators según preferencia:
  * By Id
  * By name
- * By css: https://saucelabs.com/resources/articles/selenium-tips-css-selectors
+ * By css: <a href="https://saucelabs.com/resources/articles/selenium-tips-css-selectors">...</a>
  * By xpath
  * Wait: implicitlyWait vs explicitWait (expected conditions)
  */
@@ -42,7 +41,7 @@ public class WebDriverOptionsTest {
     public void setUp() {
         LOGGER.debug("start testWebDrive");
         // TODO download from https://www.selenium.dev/ecosystem/
-        File currentDirFile = new File(".webDriver/chromedriver.exe");
+        File currentDirFile = new File(".webDriver/chromedriver");
         System.setProperty ("webdriver.chrome.driver",currentDirFile.getAbsolutePath() );
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -56,7 +55,7 @@ public class WebDriverOptionsTest {
     }
 
     @Test
-    public void testExplicitWaitWithFluentWait() throws InterruptedException
+    public void testExplicitWaitWithFluentWait()
     {
         LOGGER.debug("start testWebDrive");
         driver.get("https://the-internet.herokuapp.com/dynamic_controls");
