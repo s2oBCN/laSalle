@@ -51,7 +51,7 @@ public class WebDriverOptionsTest {
     }
 
     @Test
-    public void testWebDriveImplicitlyWait() throws InterruptedException
+    public void testWebDriveImplicitlyWait()
     {
         LOGGER.debug("start testWebDriveImplicitlyWait");
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
